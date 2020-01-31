@@ -113,11 +113,11 @@ router.get("/", urlEncoded, async (request, response) => {
     mediaPremieres = generateShowsPremieres(allShowsPremieres);
   }
 
-  response.cookie("mediaPremieres", JSON.stringify(mediaPremieres), {
-    maxAge: 7.776e6, // Three months
-    httpOnly: false,
-    signed: false
-  });
+  // response.cookie("mediaPremieres", JSON.stringify(mediaPremieres), {
+  //   maxAge: 7.776e6, // Three months
+  //   httpOnly: false,
+  //   signed: false
+  // });
 
   // response.send(`${settings.express.protocol}://${settings.express.host}:${settings.express.port}/poster`)
 
