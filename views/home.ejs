@@ -10,12 +10,103 @@
 
     <title>Traker</title>
 
-    <link rel="stylesheet" href="/assets/styles/home.css">
+    <link rel="stylesheet" href="/assets/styles/home.css" />
+
+    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.css"
+      integrity="sha256-PtBWX+v2TI0iuYI3rZrQft5kfd3ZkdPd8iVMZoE1rxE="
+      crossorigin="anonymous"
+    />
   </head>
 
   <body>
-    <h1>
-      Traker
-    </h1>
+    <div>
+      <span class="logo">TRAKER</span>
+    </div>
+
+    <div class="line"></div>
+
+    <header class="main-header">
+      <div class="main-header-logo">
+        <div class="main-header-logo-geometry"></div>
+
+        <i class="fas fa-play"></i>
+      </div>
+
+      <div class="main-header-links">
+        <div class="main-header-links-form">
+          <form action="/" method="GET">
+            <div class="main-header-links-form-days">
+              <!-- <i class="fas fa-calendar-alt"></i> -->
+
+              <input
+                type="number"
+                name="days"
+                placeholder="Days to traker, e.g, <%= days %>"
+              />
+
+              <input type="submit" style="position: absolute; left: -9999px" />
+            </div>
+          </form>
+        </div>
+
+        <div class="main-header-links-sign">
+          <i class="fas fa-sign-in-alt"></i>
+
+          <a
+            href="<%= authenticated ? '/logout' : authorizeUrl %>"
+            onmouseover="iconSignInColor()"
+            onmouseout="iconSignInColor()"
+            ><%= authenticated ? 'Logout' : 'Sign In' %></a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="main-title">
+        <span> Premieres, seasons and episodes <br />that are coming </span>
+      </div>
+
+      <div class="main-board">
+        <% for(let mediaPremiere of mediaPremieres) { %>
+        <div>
+          <div class="board-item-image">
+            <img
+              src="<%= mediaPremiere.poster ? mediaPremiere.poster : "/assets/images/default.png" %>"
+              alt="Poster"
+            />
+
+            <span><%= mediaPremiere.daysUntilPremiere %><br />Days</span>
+          </div>
+
+          <div class="board-item-metadata">
+            <span><%= mediaPremiere.title %></span> <br />
+
+            <i class="far fa-bell"></i>
+            <span
+              >S<%= mediaPremiere.season %>E<%= mediaPremiere.episode ?
+              mediaPremiere.episode : "1" %></span
+            >
+            <br />
+
+            <i class="far fa-calendar-plus board-item-metadata-calendar"></i>
+            <span><%= mediaPremiere.firstAired %></span>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </main>
+
+    <script defer>
+      const iconSignInColor = () => {
+        document
+          .getElementsByClassName("fas fa-sign-in-alt")[0]
+          .classList.toggle("main-header-links-sign-hover");
+      };
+    </script>
   </body>
 </html>

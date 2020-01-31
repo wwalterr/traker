@@ -4,6 +4,9 @@ module.exports = {
     host: "localhost",
     protocol: "http"
   },
+  application: {
+    days: 14
+  },
   cookie: {
     secret: "6a681d29-d6ae-48bd-b6d3-5d617256" // 32-Bits key
   },

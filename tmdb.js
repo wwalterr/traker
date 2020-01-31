@@ -1,13 +1,18 @@
 const axios = require("axios");
 
-const showImages = async ({ apiUrl, showEndpoint, showId, apiKey3 }) => {
+const showImages = async ({ apiUrl, showEndpoint, showId, apiKey3, promise = false }) => {
   // Show id is a valid id from The Movie Database
 
   try {
-    const _showImages = await axios({
+    const _showImagesPromise = axios({
       url: `${apiUrl}${showEndpoint}/${showId}/images?api_key=${apiKey3}`,
       method: "GET"
-    });
+    })
+
+    if(promise)
+      return _showImagesPromise
+
+    const _showImages = await _showImagesPromise;
 
     return _showImages.data;
   } catch (error) {
