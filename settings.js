@@ -1,6 +1,6 @@
 module.exports = {
   express: {
-    port: 3000,
+    port: process.env.PORT || 3000,
     host: "ttraker.herokuapp.com",
     protocol: "http"
   },
@@ -13,7 +13,7 @@ module.exports = {
   trakt: {
     clientId: "5b1a1fba450c9c4d677623818be7583890b0699bc348ba5cbffbb50a3c0d2cbd",
     clientSecret: "1c8ee28dfdec965da6596c02db477f6ca41aaa036db29432e054fa6bf9c66e8b",
-    redirectUri: "http://ttraker.herokuapp.com:3000/authenticate", // Needs to be registered at the application on Trakt
+    redirectUri: `http://ttraker.herokuapp.com:${process.env.PORT || 3000}/authenticate`, // Needs to be registered at the application on Trakt
     responseType: "code",
     apiUrl: "https://api.trakt.tv/", // Keep the slash at the end
     siteUrl: "https://trakt.tv/", // Keep the slash at the end
