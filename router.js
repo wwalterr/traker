@@ -169,7 +169,6 @@ router.get("/", urlEncoded, async (request, response) => {
       authenticated: Boolean(authentication)
     });
   });
-  
 });
 
 router.get("/logout", (request, response) => {

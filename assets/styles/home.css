@@ -37,6 +37,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
 body,
 html {
   width: 100vw;
@@ -50,19 +55,18 @@ body {
 }
 
 ::-webkit-scrollbar {
-  display: none;
+  width: 7px;
 }
 
-/* Line */
-.line {
-  position: absolute;
-  right: 0px;
-  bottom: 100px;
-  width: 7px;
-  height: 335px;
-  z-index: 0;
-  background: var(--play-background-color);
+::-webkit-scrollbar-track {
+  background: transparent;
 }
+ 
+::-webkit-scrollbar-thumb {
+  background: var(--play-background-color);
+  border: 0;
+}
+
 
 /* Logo */
 .logo {
