@@ -160,7 +160,7 @@ router.get("/", urlEncoded, async (request, response) => {
       mediaPremieres[poster.index]["poster"] = poster.url;
     }
 
-    console.log(mediaPremieres);
+    // console.log(mediaPremieres);
 
     response.render("home", {
       mediaPremieres,
