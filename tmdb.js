@@ -7,7 +7,9 @@ const showImages = async ({ apiUrl, showEndpoint, showId, apiKey3, promise = fal
     const _showImagesPromise = axios({
       url: `${apiUrl}${showEndpoint}/${showId}/images?api_key=${apiKey3}`,
       method: "GET"
-    })
+    }).catch(error => {
+			console.log(error)
+		})
 
     if(promise)
       return _showImagesPromise

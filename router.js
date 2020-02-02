@@ -10,11 +10,15 @@ const tmdb = require("./tmdb");
 
 const omdb = require("./omdb");
 
+const tvdb = require('./tvdb')
+
 // Router
 const router = express.Router();
 
 // Middleware
-const urlEncoded = bodyParser.urlencoded({ extended: true });
+const urlEncoded = bodyParser.urlencoded({
+  extended: true
+});
 
 // Route
 router.get("/authenticate", urlEncoded, async (request, response) => {
@@ -50,12 +54,12 @@ const generateShowsPremieres = showsPremieres => {
   const dateNow = new Date();
 
   for (let showPremiere of showsPremieres) {
-    const daysUntilPremiere = showPremiere.first_aired
-      ? Math.ceil(
-          Math.abs(new Date() - new Date(showPremiere.first_aired)) /
-            (1000 * 60 * 60 * 24)
-        )
-      : null;
+    const daysUntilPremiere = showPremiere.first_aired ?
+      Math.ceil(
+        Math.abs(new Date() - new Date(showPremiere.first_aired)) /
+        (1000 * 60 * 60 * 24)
+      ) :
+      null;
 
     // console.log(showPremiere);
 
@@ -84,51 +88,69 @@ const generateShowsPremieres = showsPremieres => {
 };
 
 router.get("/", urlEncoded, async (request, response) => {
-  const authentication = request.cookies.authentication
-    ? JSON.parse(request.cookies.authentication)
-    : null;
+  const authentication = request.cookies.authentication ?
+    JSON.parse(request.cookies.authentication) :
+    null;
 
-  const days = request.query.days
-    ? request.query.days
-    : settings.application.days;
+  const days = request.query.days ?
+    request.query.days :
+    settings.application.days;
 
   let mediaPremieres = [];
 
   if (authentication) {
-    const myShowsPremieres = await trakt.myShowsPremieres({
-      ...settings.trakt,
-      days: days,
-      authenticated: Boolean(authentication),
-      accessToken: authentication.access_token
-    });
+    try {
+      const myShowsPremieres = await trakt.myShowsPremieres({
+        ...settings.trakt,
+        days: days,
+        authenticated: Boolean(authentication),
+        accessToken: authentication.access_token
+      });
 
-    mediaPremieres = generateShowsPremieres(myShowsPremieres);
+      mediaPremieres = generateShowsPremieres(myShowsPremieres);
+    } catch (error) {
+      console.log(`Error: ${error}`)
+    }
   } else {
-    const allShowsPremieres = await trakt.allShowsPremieres({
-      ...settings.trakt,
-      days: days,
-      authenticated: Boolean(authentication)
-    });
+    try {
+      const allShowsPremieres = await trakt.allShowsPremieres({
+        ...settings.trakt,
+        days: days,
+        authenticated: Boolean(authentication)
+      })
 
-    mediaPremieres = generateShowsPremieres(allShowsPremieres);
+      mediaPremieres = generateShowsPremieres(allShowsPremieres);
+    } catch (error) {
+      console.log(`Error: ${error}`)
+    }
   }
 
-  // response.cookie("mediaPremieres", JSON.stringify(mediaPremieres), {
-  //   maxAge: 7.776e6, // Three months
-  //   httpOnly: false,
-  //   signed: false
-  // });
+  let tvdbAuthentication = ''
 
-  // response.send(`${settings.express.protocol}://${settings.express.host}:${settings.express.port}/poster`)
+  try {
+    _tvdbAuthentication = await tvdb.login()
+    tvdbAuthentication = _tvdbAuthentication.token
+  } catch (error) {
+    console.log(error)
+  }
+
+
+
+
+
+
+
+
+
 
   let postersPromises = mediaPremieres
     .map((showPremiere, index) => {
-      if (showPremiere.showIds.tmdb)
+      if (showPremiere.showIds.tvdb)
         return {
           index,
-          promise: tmdb.showImages({
-            ...settings.tmdb,
-            showId: showPremiere.showIds.tmdb,
+          promise: tvdb.poster({
+            id: showPremiere.showIds.tvdb,
+            token: tvdbAuthentication,
             promise: true
           })
         };
@@ -140,27 +162,38 @@ router.get("/", urlEncoded, async (request, response) => {
 
   Promise.all(
     postersPromises.map((poster, index) =>
-      poster.promise.then(data => ({ ...poster, data }))
+      poster.promise.then(data => ({
+        ...poster,
+        data
+      }))
     )
   ).then(results => {
     // console.log(results[3].data.data.posters[0].file_path)
     // console.log(results)
-    const posters = results.map(({ data: { data }, index }) => {
-      if (data.posters.length >= 1) {
-        return {
-          url: `http://image.tmdb.org/t/p/w200/${data.posters[0].file_path}`,
-          index
-        };
-      } else {
-        return { url: null, index };
+    const posters = results.map(({
+      data,
+      index
+    }) => {
+
+      if(data){
+        const postersArray = data.data.data
+
+        if(postersArray.length){
+          const index = Math.floor(Math.random() * postersArray.length)
+          return {
+                url: `https://thetvdb.com/banners/${postersArray[index].fileName}`,
+                index
+              }
+        }
       }
+
+      return { url: null, index }
     });
 
+    console.log(posters)
     for (let poster of posters) {
       mediaPremieres[poster.index]["poster"] = poster.url;
     }
-
-    // console.log(mediaPremieres);
 
     response.render("home", {
       mediaPremieres,
