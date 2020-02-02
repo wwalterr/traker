@@ -179,7 +179,7 @@ router.get("/", urlEncoded, async (request, response) => {
         const postersArray = data.data.data
 
         if(postersArray.length){
-          const index = Math.floor(Math.random() * postersArray.length)
+          const index = Math.floor(Math.random() * (postersArray.length - 1))
           return {
                 url: `https://thetvdb.com/banners/${postersArray[index].fileName}`,
                 index
@@ -190,7 +190,7 @@ router.get("/", urlEncoded, async (request, response) => {
       return { url: null, index }
     });
 
-    console.log(posters)
+    // console.log(posters)
     for (let poster of posters) {
       mediaPremieres[poster.index]["poster"] = poster.url;
     }
