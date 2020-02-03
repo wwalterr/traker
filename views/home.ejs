@@ -78,7 +78,7 @@
               alt="Poster"
             />
 
-            <span><%= mediaPremiere.daysUntilPremiere %><br />Days</span>
+            <span><%= mediaPremiere.daysUntilPremiere %><br /><%= mediaPremiere.daysUntilPremiere > 1 ? "Days" : "Day" %></span>
           </div>
 
           <div class="board-item-metadata">

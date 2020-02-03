@@ -10,7 +10,7 @@ const tmdb = require("./tmdb");
 
 const omdb = require("./omdb");
 
-const tvdb = require('./tvdb')
+const tvdb = require("./tvdb");
 
 // Router
 const router = express.Router();
@@ -54,12 +54,12 @@ const generateShowsPremieres = showsPremieres => {
   const dateNow = new Date();
 
   for (let showPremiere of showsPremieres) {
-    const daysUntilPremiere = showPremiere.first_aired ?
-      Math.ceil(
-        Math.abs(new Date() - new Date(showPremiere.first_aired)) /
-        (1000 * 60 * 60 * 24)
-      ) :
-      null;
+    const daysUntilPremiere = showPremiere.first_aired
+      ? Math.ceil(
+          Math.abs(new Date() - new Date(showPremiere.first_aired)) /
+            (1000 * 60 * 60 * 24)
+        )
+      : null;
 
     // console.log(showPremiere);
 
@@ -88,13 +88,13 @@ const generateShowsPremieres = showsPremieres => {
 };
 
 router.get("/", urlEncoded, async (request, response) => {
-  const authentication = request.cookies.authentication ?
-    JSON.parse(request.cookies.authentication) :
-    null;
+  const authentication = request.cookies.authentication
+    ? JSON.parse(request.cookies.authentication)
+    : null;
 
-  const days = request.query.days ?
-    request.query.days :
-    settings.application.days;
+  const days = request.query.days
+    ? request.query.days
+    : settings.application.days;
 
   let mediaPremieres = [];
 
@@ -109,7 +109,7 @@ router.get("/", urlEncoded, async (request, response) => {
 
       mediaPremieres = generateShowsPremieres(myShowsPremieres);
     } catch (error) {
-      console.log(`Error: ${error}`)
+      console.log(`Error: ${error}`);
     }
   } else {
     try {
@@ -117,31 +117,22 @@ router.get("/", urlEncoded, async (request, response) => {
         ...settings.trakt,
         days: days,
         authenticated: Boolean(authentication)
-      })
+      });
 
       mediaPremieres = generateShowsPremieres(allShowsPremieres);
     } catch (error) {
-      console.log(`Error: ${error}`)
+      console.log(`Error: ${error}`);
     }
   }
 
-  let tvdbAuthentication = ''
+  let tvdbAuthentication = "";
 
   try {
-    _tvdbAuthentication = await tvdb.login()
-    tvdbAuthentication = _tvdbAuthentication.token
+    _tvdbAuthentication = await tvdb.login();
+    tvdbAuthentication = _tvdbAuthentication.token;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-
-
-
-
-
-
-
-
-
 
   let postersPromises = mediaPremieres
     .map((showPremiere, index) => {
@@ -167,41 +158,44 @@ router.get("/", urlEncoded, async (request, response) => {
         data
       }))
     )
-  ).then(results => {
-    // console.log(results[3].data.data.posters[0].file_path)
-    // console.log(results)
-    const posters = results.map(({
-      data,
-      index
-    }) => {
+  )
+    .then(results => {
+      // console.log(results[3].data.data.posters[0].file_path)
+      // console.log(results)
+      const posters = results.map(({ data, index }) => {
+        if (data) {
+          const postersArray = data.data.data;
 
-      if(data){
-        const postersArray = data.data.data
-
-        if(postersArray.length){
-          const index = Math.floor(Math.random() * (postersArray.length - 1))
-          return {
-                url: `https://thetvdb.com/banners/${postersArray[index].fileName}`,
-                index
-              }
+          if (postersArray.length) {
+            const indexPoster = Math.floor(
+              Math.random() * (postersArray.length - 1)
+            );
+            return {
+              url: `https://thetvdb.com/banners/${postersArray[indexPoster].fileName}`,
+              index
+            };
+          }
         }
+
+        return { url: null, index };
+      });
+
+      // console.log(posters)
+      for (let poster of posters) {
+        mediaPremieres[poster.index]["poster"] = poster.url;
       }
-
-      return { url: null, index }
+    })
+    .finally(r => {
+      response.render("home", {
+        mediaPremieres,
+        authorizeUrl: trakt.createAuthorizeUrl(settings.trakt),
+        days: days,
+        authenticated: Boolean(authentication)
+      });
+    })
+    .catch(error => {
+      console.log(error);
     });
-
-    // console.log(posters)
-    for (let poster of posters) {
-      mediaPremieres[poster.index]["poster"] = poster.url;
-    }
-
-    response.render("home", {
-      mediaPremieres,
-      authorizeUrl: trakt.createAuthorizeUrl(settings.trakt),
-      days: days,
-      authenticated: Boolean(authentication)
-    });
-  });
 });
 
 router.get("/logout", (request, response) => {
