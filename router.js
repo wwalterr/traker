@@ -4,13 +4,13 @@ const bodyParser = require("body-parser");
 
 const settings = require("./settings");
 
-const trakt = require("./trakt");
+const trakt = require("./source/trakt");
 
-const tmdb = require("./tmdb");
+const tmdb = require("./source/tmdb");
 
-const omdb = require("./omdb");
+const omdb = require("./source/omdb");
 
-const tvdb = require("./tvdb");
+const tvdb = require("./source/tvdb");
 
 // Router
 const router = express.Router();

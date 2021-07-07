@@ -38,12 +38,10 @@
         <div class="main-header-links-form">
           <form action="/" method="GET">
             <div class="main-header-links-form-days">
-              <!-- <i class="fas fa-calendar-alt"></i> -->
-
               <input
                 type="number"
                 name="days"
-                placeholder="Days to traker, e.g, <%= days %>"
+                placeholder="Days to traker, e.g <%= days %>"
               />
 
               <input type="submit" style="position: absolute; left: -9999px" />
@@ -73,12 +71,13 @@
         <% for(let mediaPremiere of mediaPremieres) { %>
         <div>
           <div class="board-item-image">
-            <img
-              src="<%= mediaPremiere.poster ? mediaPremiere.poster : "/assets/images/default.png" %>"
-              alt="Poster"
-            />
+            <img src="<%= mediaPremiere.poster ? mediaPremiere.poster :
+            "/assets/images/default.png" %>" alt="Poster" />
 
-            <span><%= mediaPremiere.daysUntilPremiere %><br /><%= mediaPremiere.daysUntilPremiere > 1 ? "Days" : "Day" %></span>
+            <span
+              ><%= mediaPremiere.daysUntilPremiere %><br /><%=
+              mediaPremiere.daysUntilPremiere > 1 ? "Days" : "Day" %></span
+            >
           </div>
 
           <div class="board-item-metadata">
