@@ -10,7 +10,7 @@ module.exports = {
   cookie: {
     secret: "6a681d29-d6ae-48bd-b6d3-5d617256" // 32-Bits key
   },
-  trakt: {
+  trakt: {  // Application trakt.tv/oauth/applications/
     clientId: "5b1a1fba450c9c4d677623818be7583890b0699bc348ba5cbffbb50a3c0d2cbd",
     clientSecret: "1c8ee28dfdec965da6596c02db477f6ca41aaa036db29432e054fa6bf9c66e8b",
     redirectUri: `https://ttrakerr.herokuapp.com/authenticate`, // Needs to be registered at the application on Trakt
