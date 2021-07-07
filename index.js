@@ -6,7 +6,7 @@ const cookieEncrypter = require("cookie-encrypter");
 
 const settings = require("./settings");
 
-const router = require("./router");
+const router = require("./source/router");
 
 // Application
 const application = express();

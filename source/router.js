@@ -2,15 +2,11 @@ const express = require("express");
 
 const bodyParser = require("body-parser");
 
-const settings = require("./settings");
+const settings = require("../settings");
 
-const trakt = require("./source/trakt");
+const trakt = require("./trakt");
 
-const tmdb = require("./source/tmdb");
-
-const omdb = require("./source/omdb");
-
-const tvdb = require("./source/tvdb");
+const tvdb = require("./tvdb");
 
 // Router
 const router = express.Router();
