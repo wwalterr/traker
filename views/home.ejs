@@ -71,8 +71,13 @@
         <% for(let mediaPremiere of mediaPremieres) { %>
         <div>
           <div class="board-item-image">
-            <img src="<%= mediaPremiere.poster ? mediaPremiere.poster :
-            "/assets/images/default.png" %>" alt="Poster" />
+            <a
+              href="https://www.youtube.com/results?search_query=<%= mediaPremiere.title.replace(/\s/g, '+') %>"
+              target="_blank"
+            >
+              <img src="<%= mediaPremiere.poster ? mediaPremiere.poster :
+              "/assets/images/default.png" %>" alt="Poster" />
+            </a>
 
             <span
               ><%= mediaPremiere.daysUntilPremiere %><br /><%=

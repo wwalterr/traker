@@ -282,14 +282,14 @@ input[type="number"] {
   cursor: default;
 }
 
-.board-item-image > img {
+.board-item-image > a > img {
   width: 200px;
   height: 300px;
   filter: grayscale(1);
   transition: all 0.5s ease-in-out 0s;
 }
 
-.board-item-image > img:hover {
+.board-item-image > a > img:hover {
   filter: grayscale(0);
 }
 
