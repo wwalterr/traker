@@ -125,6 +125,7 @@ router.get("/", urlEncoded, async (request, response) => {
 
   try {
     _tvdbAuthentication = await tvdb.login();
+
     tvdbAuthentication = _tvdbAuthentication.token;
   } catch (error) {
     console.log(error);

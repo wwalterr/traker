@@ -68,7 +68,8 @@
       </div>
 
       <div class="main-board">
-        <% for(let mediaPremiere of mediaPremieres) { %>
+        <% for(let mediaPremiere of mediaPremieres) { if(mediaPremiere.poster) {
+        %>
         <div>
           <div class="board-item-image">
             <a
@@ -99,7 +100,7 @@
             <span><%= mediaPremiere.firstAired %></span>
           </div>
         </div>
-        <% } %>
+        <% } } %>
       </div>
     </main>
 
