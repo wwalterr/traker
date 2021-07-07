@@ -37,6 +37,8 @@
 }
 
 ::selection {
+  background: #dfefac;
+  color: #fff;
 }
 
 * {
@@ -86,7 +88,7 @@ body {
   font-family: "McLaren", cursive;
   text-transform: uppercase;
   position: absolute;
-  top: 40%;
+  top: 45%;
   left: -350px;
   font-size: 12rem;
   z-index: -1;

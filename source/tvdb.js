@@ -1,3 +1,5 @@
+const settings = require("../settings");
+
 const axios = require("axios");
 
 const login = async () => {
@@ -6,9 +8,9 @@ const login = async () => {
       method: "POST",
       url: "https://api.thetvdb.com/login",
       data: {
-        apikey: "e87cbda4689d7f5b68218bf8510f05a8",
-        userKey: "5E36F969C3ADB3.97231761",
-        username: "sphinxs",
+        apikey: settings.tvdb.apikey,
+        userKey: settings.tvdb.userKey,
+        username: settings.tvdb.username,
       },
       headers: {
         "Content-Type": "application/json",
