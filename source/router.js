@@ -13,7 +13,7 @@ const router = express.Router();
 
 // Middleware
 const urlEncoded = bodyParser.urlencoded({
-  extended: true
+  extended: true,
 });
 
 // Route
@@ -25,26 +25,26 @@ router.get("/authenticate", urlEncoded, async (request, response) => {
   try {
     const authentication = await trakt.exchangeCode({
       ...settings.trakt,
-      ...request.query // Expect a OAuth 2 code at the query string
+      ...request.query, // Expect a OAuth 2 code at the query string
     });
 
     response.cookie("authentication", JSON.stringify(authentication), {
       maxAge: 7.776e6, // Three months
       httpOnly: false,
-      signed: false
+      signed: false,
     });
 
     response.redirect("/");
 
     // response.json({ status: "authenticated" });
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.log(error.message);
 
     throw error;
   }
 });
 
-const generateShowsPremieres = showsPremieres => {
+const generateShowsPremieres = (showsPremieres) => {
   let _showsPremieres = [];
 
   const dateNow = new Date();
@@ -65,12 +65,12 @@ const generateShowsPremieres = showsPremieres => {
       episode: showPremiere.episode.episode,
       title: showPremiere.show.title,
       daysUntilPremiere,
-      showIds: showPremiere.show.ids
+      showIds: showPremiere.show.ids,
     });
   }
 
   const _showsPremieresDuplicate = _showsPremieres.reduce((list, current) => {
-    if (!list.some(_object => _object.title === current.title))
+    if (!list.some((_object) => _object.title === current.title))
       list.push(current);
 
     return list;
@@ -100,24 +100,24 @@ router.get("/", urlEncoded, async (request, response) => {
         ...settings.trakt,
         days: days,
         authenticated: Boolean(authentication),
-        accessToken: authentication.access_token
+        accessToken: authentication.access_token,
       });
 
       mediaPremieres = generateShowsPremieres(myShowsPremieres);
     } catch (error) {
-      console.log(`Error: ${error}`);
+      console.log(error.message);
     }
   } else {
     try {
       const allShowsPremieres = await trakt.allShowsPremieres({
         ...settings.trakt,
         days: days,
-        authenticated: Boolean(authentication)
+        authenticated: Boolean(authentication),
       });
 
       mediaPremieres = generateShowsPremieres(allShowsPremieres);
     } catch (error) {
-      console.log(`Error: ${error}`);
+      console.log(error.message);
     }
   }
 
@@ -139,24 +139,24 @@ router.get("/", urlEncoded, async (request, response) => {
           promise: tvdb.poster({
             id: showPremiere.showIds.tvdb,
             token: tvdbAuthentication,
-            promise: true
-          })
+            promise: true,
+          }),
         };
       return null;
     })
-    .filter(posterPromise => {
+    .filter((posterPromise) => {
       return posterPromise ? posterPromise : null;
     });
 
   Promise.all(
     postersPromises.map((poster, index) =>
-      poster.promise.then(data => ({
+      poster.promise.then((data) => ({
         ...poster,
-        data
+        data,
       }))
     )
   )
-    .then(results => {
+    .then((results) => {
       // console.log(results[3].data.data.posters[0].file_path)
       // console.log(results)
       const posters = results.map(({ data, index }) => {
@@ -169,7 +169,7 @@ router.get("/", urlEncoded, async (request, response) => {
             );
             return {
               url: `https://thetvdb.com/banners/${postersArray[indexPoster].fileName}`,
-              index
+              index,
             };
           }
         }
@@ -182,15 +182,15 @@ router.get("/", urlEncoded, async (request, response) => {
         mediaPremieres[poster.index]["poster"] = poster.url;
       }
     })
-    .finally(r => {
+    .finally((r) => {
       response.render("home", {
         mediaPremieres,
-        authorizeUrl: trakt.createAuthorizeUrl(settings.trakt),
+        authorizeUrl: trakt.createAuthorizationUrl(settings.trakt),
         days: days,
-        authenticated: Boolean(authentication)
+        authenticated: Boolean(authentication),
       });
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
     });
 });

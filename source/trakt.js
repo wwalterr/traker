@@ -1,13 +1,13 @@
 const axios = require("axios");
 
-const createAuthorizeUrl = ({
+const createAuthorizationUrl = ({
   siteUrl,
-  authorizeEndpoint,
+  authorizationEndpoint,
   clientId,
   redirectUri,
-  responseType
+  responseType,
 }) => {
-  return `${siteUrl}${authorizeEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`;
+  return `${siteUrl}${authorizationEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`;
 };
 
 const exchangeCode = async ({
@@ -17,27 +17,27 @@ const exchangeCode = async ({
   clientId,
   clientSecret,
   redirectUri,
-  grantTypeCode
+  grantTypeCode,
 }) => {
   try {
     const authentication = await axios({
       url: `${apiUrl}${tokenEndpoint}`,
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       data: {
         code: code,
         client_id: clientId,
         client_secret: clientSecret,
         redirect_uri: redirectUri,
-        grant_type: grantTypeCode
-      }
+        grant_type: grantTypeCode,
+      },
     });
 
     return authentication.data;
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.log(error.message);
 
     throw error;
   }
@@ -48,7 +48,7 @@ const myShowsPremieres = async ({
   days,
   clientId,
   apiVersion,
-  accessToken
+  accessToken,
 }) => {
   const startDate = new Date().toISOString().split("T")[0];
 
@@ -60,13 +60,13 @@ const myShowsPremieres = async ({
         "Content-Type": "application/json",
         "trakt-api-key": clientId,
         "trakt-api-version": apiVersion,
-        Authorization: `Bearer ${accessToken}`
-      }
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     return showsPremieres.data;
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.log(error.message);
 
     throw error;
   }
@@ -82,13 +82,13 @@ const allShowsPremieres = async ({ apiUrl, days, clientId, apiVersion }) => {
       headers: {
         "Content-Type": "application/json",
         "trakt-api-key": clientId,
-        "trakt-api-version": apiVersion
-      }
+        "trakt-api-version": apiVersion,
+      },
     });
 
     return showsPremieres.data;
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.log(error.message);
 
     throw error;
   }
@@ -98,7 +98,7 @@ const hypedShows = async ({
   apiUrl,
   trending = false,
   clientId,
-  apiVersion
+  apiVersion,
 }) => {
   // By default popular shows are queried. Popularity is calculated
   // using the rating percentage and the number of ratings, and trending
@@ -111,20 +111,20 @@ const hypedShows = async ({
       headers: {
         "Content-Type": "application/json",
         "trakt-api-key": clientId,
-        "trakt-api-version": apiVersion
-      }
+        "trakt-api-version": apiVersion,
+      },
     });
 
     return _hypedShows.data;
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.log(error.message);
 
     throw error;
   }
 };
 
 const showSummary = async ({ apiUrl, showId, clientId, apiVersion }) => {
-  // Show id is a valid id / show name from Trakt
+  // Show ID is a valid ID / show name from Trakt
 
   try {
     const _showSummary = await axios({
@@ -133,23 +133,23 @@ const showSummary = async ({ apiUrl, showId, clientId, apiVersion }) => {
       headers: {
         "Content-Type": "application/json",
         "trakt-api-key": clientId,
-        "trakt-api-version": apiVersion
-      }
+        "trakt-api-version": apiVersion,
+      },
     });
 
     return _showSummary.data;
   } catch (error) {
-    console.log(`Error: ${error}`);
+    console.log(error.message);
 
     throw error;
   }
 };
 
 module.exports = {
-  createAuthorizeUrl,
+  createAuthorizationUrl,
   exchangeCode,
   myShowsPremieres,
   allShowsPremieres,
   hypedShows,
-  showSummary
+  showSummary,
 };
