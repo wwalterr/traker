@@ -24,7 +24,7 @@ application.use("/assets", express.static("assets"));
 application.use("/", router);
 
 // Error
-application.get("*", (request, response) => {
+application.use((error, request, response, next) => {
   response.status(404).redirect("/");
 });
 

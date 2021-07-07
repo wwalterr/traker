@@ -12,15 +12,15 @@ const tvdb = require("./tvdb");
 const router = express.Router();
 
 // Middleware
-const urlEncoded = bodyParser.urlencoded({
+const urlEncoded = express.urlencoded({
   extended: true,
 });
 
 // Route
 router.get("/authenticate", urlEncoded, async (request, response) => {
-  // Create an authorization URL, access the URL, authenticate at
-  // the Trakt and then Trakt will redirect to this route with a
-  // code at the query string
+  // Create an authorization URL, access the URL, authenticate on
+  // Trakt and then Trakt will redirect to this route with query
+  // string
 
   try {
     const authentication = await trakt.exchangeCode({
@@ -47,8 +47,6 @@ router.get("/authenticate", urlEncoded, async (request, response) => {
 const generateShowsPremieres = (showsPremieres) => {
   let _showsPremieres = [];
 
-  const dateNow = new Date();
-
   for (let showPremiere of showsPremieres) {
     const daysUntilPremiere = showPremiere.first_aired
       ? Math.ceil(
@@ -56,8 +54,6 @@ const generateShowsPremieres = (showsPremieres) => {
             (1000 * 60 * 60 * 24)
         )
       : null;
-
-    // console.log(showPremiere);
 
     _showsPremieres.push({
       firstAired: new Date(showPremiere.first_aired).toDateString(),
@@ -128,7 +124,7 @@ router.get("/", urlEncoded, async (request, response) => {
 
     tvdbAuthentication = _tvdbAuthentication.token;
   } catch (error) {
-    console.log(error);
+    // console.log(error.message);
   }
 
   let postersPromises = mediaPremieres
@@ -142,6 +138,7 @@ router.get("/", urlEncoded, async (request, response) => {
             promise: true,
           }),
         };
+
       return null;
     })
     .filter((posterPromise) => {
@@ -157,8 +154,6 @@ router.get("/", urlEncoded, async (request, response) => {
     )
   )
     .then((results) => {
-      // console.log(results[3].data.data.posters[0].file_path)
-      // console.log(results)
       const posters = results.map(({ data, index }) => {
         if (data) {
           const postersArray = data.data.data;
@@ -177,12 +172,11 @@ router.get("/", urlEncoded, async (request, response) => {
         return { url: null, index };
       });
 
-      // console.log(posters)
       for (let poster of posters) {
         mediaPremieres[poster.index]["poster"] = poster.url;
       }
     })
-    .finally((r) => {
+    .finally((_response) => {
       response.render("home", {
         mediaPremieres,
         authorizeUrl: trakt.createAuthorizationUrl(settings.trakt),
@@ -191,7 +185,7 @@ router.get("/", urlEncoded, async (request, response) => {
       });
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error.message);
     });
 });
 
@@ -203,6 +197,6 @@ router.get("/logout", (request, response) => {
   response.redirect("/");
 });
 
-router.use(bodyParser.json());
+router.use(express.json());
 
 module.exports = router;
