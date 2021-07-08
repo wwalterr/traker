@@ -38,7 +38,7 @@ yarn start
 
 ## Contributing
 
-Pull requests are welcome. Please, consider the following.
+Please, consider the following.
 
 1. Make sure you code have quality, a.k.a standards
 2. Make sure your code is secure
