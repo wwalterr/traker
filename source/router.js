@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require("express");
 
 const bodyParser = require("body-parser");
@@ -38,7 +40,7 @@ router.get("/authenticate", urlEncoded, async (request, response) => {
 
   try {
     const authentication = await trakt.exchangeCode({
-      ...,
+      ...TRAKT_SETTINGS,
       ...request.query, // Expect a OAuth 2 code at the query string
     });
 
