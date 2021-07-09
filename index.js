@@ -29,4 +29,4 @@ application.use((error, request, response, next) => {
 });
 
 // Server
-application.listen(process.env.PORT || process.env.SERVER_PORT, process.env.SERVER_HOST);
+application.listen(process.env.PORT || parseInt(process.env.SERVER_PORT), process.env.SERVER_HOST);

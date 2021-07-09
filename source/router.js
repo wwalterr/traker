@@ -28,7 +28,7 @@ const TRAKT_SETTINGS = {
 	authorizationEndpoint: process.env.TRAKT_AUTHORIZATION_ENDPOINT,
 	tokenEndpoint: process.env.TRAKT_TOKEN_ENDPOINT,
 	grantTypeCode: process.env.TRAKT_GRANT_TYPE_CODE,
-	apiVersion: process.env.TRAKT_API_VERSION,
+	apiVersion: parseInt(process.env.TRAKT_API_VERSION),
   }
 
 router.get("/authenticate", urlEncoded, async (request, response) => {
@@ -98,7 +98,7 @@ router.get("/", urlEncoded, async (request, response) => {
     ? JSON.parse(request.cookies.authentication)
     : null;
 
-  const days = request.query.days ? request.query.days : process.env.TRACK_DAYS;
+  const days = request.query.days ? request.query.days : parseInt(process.env.TRACK_DAYS);
 
   let mediaPremieres = [];
 
