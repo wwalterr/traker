@@ -17,6 +17,20 @@ const urlEncoded = express.urlencoded({
 });
 
 // Route
+
+const TRAKT_SETTINGS = {
+	clientId: process.env.TRAKT_CLIENT_ID,
+	clientSecret: process.env.TRAKT_CLIENT_SECRET,
+	redirectUri: process.env.TRAKT_REDIRECT_URI, 
+	responseType: process.env.TRAKT_RESPONSE_TYPE,
+	apiUrl: process.env.TRAKT_API_URL,
+	siteUrl: process.env.TRAKT_SITE_URL,
+	authorizationEndpoint: process.env.TRAKT_AUTHORIZATION_ENDPOINT,
+	tokenEndpoint: process.env.TRAKT_TOKEN_ENDPOINT,
+	grantTypeCode: process.env.TRAKT_GRANT_TYPE_CODE,
+	apiVersion: process.env.TRAKT_API_VERSION,
+  }
+
 router.get("/authenticate", urlEncoded, async (request, response) => {
   // Create an authorization URL, access the URL, authenticate on
   // Trakt and then Trakt will redirect to this route with query
@@ -24,7 +38,7 @@ router.get("/authenticate", urlEncoded, async (request, response) => {
 
   try {
     const authentication = await trakt.exchangeCode({
-      ...settings.trakt,
+      ...,
       ...request.query, // Expect a OAuth 2 code at the query string
     });
 
@@ -84,16 +98,14 @@ router.get("/", urlEncoded, async (request, response) => {
     ? JSON.parse(request.cookies.authentication)
     : null;
 
-  const days = request.query.days
-    ? request.query.days
-    : settings.application.days;
+  const days = request.query.days ? request.query.days : process.env.TRACK_DAYS;
 
   let mediaPremieres = [];
 
   if (authentication) {
     try {
       const myShowsPremieres = await trakt.myShowsPremieres({
-        ...settings.trakt,
+        ...TRAKT_SETTINGS,
         days: days,
         authenticated: Boolean(authentication),
         accessToken: authentication.access_token,
@@ -106,7 +118,7 @@ router.get("/", urlEncoded, async (request, response) => {
   } else {
     try {
       const allShowsPremieres = await trakt.allShowsPremieres({
-        ...settings.trakt,
+        ...TRAKT_SETTINGS,
         days: days,
         authenticated: Boolean(authentication),
       });
@@ -179,7 +191,7 @@ router.get("/", urlEncoded, async (request, response) => {
     .finally((_response) => {
       response.render("home", {
         mediaPremieres,
-        authorizeUrl: trakt.createAuthorizationUrl(settings.trakt),
+        authorizeUrl: trakt.createAuthorizationUrl(TRAKT_SETTINGS),
         days: days,
         authenticated: Boolean(authentication),
       });

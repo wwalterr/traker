@@ -14,9 +14,9 @@ const application = express();
 application.set("view engine", "ejs");
 
 // Middleware
-application.use(cookieParser()); // settings.cookie.secret
+application.use(cookieParser()); // process.env.COOKIE_SECRET
 
-application.use(cookieEncrypter(settings.cookie.secret));
+application.use(cookieEncrypter(process.env.COOKIE_SECRET));
 
 application.use("/assets", express.static("assets"));
 
@@ -29,4 +29,4 @@ application.use((error, request, response, next) => {
 });
 
 // Server
-application.listen(settings.express.port, settings.express.host);
+application.listen(process.env.PORT || process.env.PORT, process.env.HOST);

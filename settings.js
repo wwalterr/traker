@@ -1,15 +1,4 @@
 module.exports = {
-  express: {
-    port: process.env.PORT || 3000,
-    host: "0.0.0.0",
-    protocol: "http",
-  },
-  application: {
-    days: 1,
-  },
-  cookie: {
-    secret: "6a681d29-d6ae-48bd-b6d3-5d617256", // 32-Bits key
-  },
   trakt: {
     // Application trakt.tv/oauth/applications/
     clientId: "5b1a1fba450c9c4d677623818be7583890b0699bc348ba5cbffbb50a3c0d2cbd",

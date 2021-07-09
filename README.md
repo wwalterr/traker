@@ -26,7 +26,7 @@ Use the package manager [Yarn](https://yarnpkg.com/getting-started/install) to i
 yarn
 ```
 
-Change the _settings.js_ variables.
+Rename _.env.example_ to _.env_ and change the variables.
 
 ## Usage
 

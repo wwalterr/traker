@@ -8,9 +8,9 @@ const login = async () => {
       method: "POST",
       url: "https://api.thetvdb.com/login",
       data: {
-        apikey: settings.tvdb.apikey,
-        userKey: settings.tvdb.userKey,
-        username: settings.tvdb.username,
+        apikey: process.env.TVDB_API_KEY,
+        userKey: process.env.TVDB_USER_KEY,
+        username: process.env.TVDB_USER_NAME,
       },
       headers: {
         "Content-Type": "application/json",
