@@ -6,15 +6,12 @@ Track animes and shows premieres, seasons and episodes.
 
 Track animes and shows premieres, seasons and episodes and integrate with Trakt.
 
-## Stores
-
-[Traker](https://ttrakerr.herokuapp.com/)
-
 ## Built with
 
 - [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 - [Node](https://nodejs.org/en/)
 - [Express](https://expressjs.com/)
+- [Axios](https://github.com/axios/axios)
 - [Trakt](https://trakt.tv/)
 - [TV Database](https://thetvdb.com/)
 
