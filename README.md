@@ -1,10 +1,10 @@
 # Traker
 
-Track premieres, seasons and episodes.
+Track animes and shows premieres, seasons and episodes.
 
 ## About
 
-Track TV, stream and anime premieres, seasons and episodes. Trakt integration.
+Track animes and shows premieres, seasons and episodes and integrate with Trakt.
 
 ## Stores
 
