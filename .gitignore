@@ -1,15 +1,11 @@
 # Editor
 .vscode
 
-# Log
-yarn-debug.log*
-yarn-error.log*
+# Environment
+.env
 
 # Dependency
 node_modules
-
-# Environment variable
-.env
 
 # Yarn
 yarn.lock
