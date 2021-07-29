@@ -1,6 +1,4 @@
-require('dotenv').config()
-
-const settings = require("../settings");
+require("dotenv").config();
 
 const axios = require("axios");
 

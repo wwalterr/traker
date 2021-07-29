@@ -1,10 +1,6 @@
-require('dotenv').config()
+require("dotenv").config();
 
 const express = require("express");
-
-const bodyParser = require("body-parser");
-
-const settings = require("../settings");
 
 const trakt = require("./trakt");
 
@@ -21,17 +17,17 @@ const urlEncoded = express.urlencoded({
 // Route
 
 const TRAKT_SETTINGS = {
-	clientId: process.env.TRAKT_CLIENT_ID,
-	clientSecret: process.env.TRAKT_CLIENT_SECRET,
-	redirectUri: process.env.TRAKT_REDIRECT_URI, 
-	responseType: process.env.TRAKT_RESPONSE_TYPE,
-	apiUrl: process.env.TRAKT_API_URL,
-	siteUrl: process.env.TRAKT_SITE_URL,
-	authorizationEndpoint: process.env.TRAKT_AUTHORIZATION_ENDPOINT,
-	tokenEndpoint: process.env.TRAKT_TOKEN_ENDPOINT,
-	grantTypeCode: process.env.TRAKT_GRANT_TYPE_CODE,
-	apiVersion: parseInt(process.env.TRAKT_API_VERSION),
-  }
+  clientId: process.env.TRAKT_CLIENT_ID,
+  clientSecret: process.env.TRAKT_CLIENT_SECRET,
+  redirectUri: process.env.TRAKT_REDIRECT_URI,
+  responseType: process.env.TRAKT_RESPONSE_TYPE,
+  apiUrl: process.env.TRAKT_API_URL,
+  siteUrl: process.env.TRAKT_SITE_URL,
+  authorizationEndpoint: process.env.TRAKT_AUTHORIZATION_ENDPOINT,
+  tokenEndpoint: process.env.TRAKT_TOKEN_ENDPOINT,
+  grantTypeCode: process.env.TRAKT_GRANT_TYPE_CODE,
+  apiVersion: parseInt(process.env.TRAKT_API_VERSION),
+};
 
 router.get("/authenticate", urlEncoded, async (request, response) => {
   // Create an authorization URL, access the URL, authenticate on
@@ -100,7 +96,9 @@ router.get("/", urlEncoded, async (request, response) => {
     ? JSON.parse(request.cookies.authentication)
     : null;
 
-  const days = request.query.days ? request.query.days : parseInt(process.env.TRACK_DAYS);
+  const days = request.query.days
+    ? request.query.days
+    : parseInt(process.env.TRACK_DAYS);
 
   let mediaPremieres = [];
 

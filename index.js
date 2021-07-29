@@ -1,12 +1,10 @@
-require('dotenv').config()
+require("dotenv").config();
 
 const express = require("express");
 
 const cookieParser = require("cookie-parser");
 
 const cookieEncrypter = require("cookie-encrypter");
-
-const settings = require("./settings");
 
 const router = require("./source/router");
 
@@ -31,4 +29,7 @@ application.use((error, request, response, next) => {
 });
 
 // Server
-application.listen(process.env.PORT || parseInt(process.env.SERVER_PORT), process.env.SERVER_HOST);
+application.listen(
+  process.env.PORT || parseInt(process.env.SERVER_PORT),
+  process.env.SERVER_HOST
+);
