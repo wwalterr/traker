@@ -51,8 +51,7 @@ html {
 body {
   display: flex;
   flex-direction: column;
-  background-image: var(--theme-color);
-  background-attachment: fixed;
+  background: var(--theme-color);
 }
 
 ::-webkit-scrollbar {
