@@ -9,21 +9,7 @@
 
 /* Global */
 :root {
-  --linear-gradient: linear-gradient(
-    to right top,
-    #dfefac,
-    #cdefac,
-    #baeeaf,
-    #a5edb5,
-    #8fecbc,
-    #78ebcd,
-    #65e8de,
-    #5ae5ed,
-    #6edffe,
-    #8fd8ff,
-    #b1d0ff,
-    #cbc8f5
-  );
+  --theme-color: #f65446;
   --play-color: #fff;
   --play-background-color: #000;
   --button-color: #1b1b1b;
@@ -37,8 +23,8 @@
 }
 
 ::selection {
-  background: #dfefac;
-  color: #fff;
+  background: transparent;
+  color: #000;
 }
 
 * {
@@ -65,7 +51,7 @@ html {
 body {
   display: flex;
   flex-direction: column;
-  background-image: var(--linear-gradient);
+  background-image: var(--theme-color);
   background-attachment: fixed;
 }
 
@@ -93,7 +79,7 @@ body {
   font-size: 12rem;
   z-index: -1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
 }
 
 /* Main header */
@@ -115,7 +101,7 @@ body {
   position: relative;
   left: 32px;
   top: 30px;
-  background: var(--linear-gradient);
+  background: var(--theme-color);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
