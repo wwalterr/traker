@@ -9,7 +9,7 @@
 
 /* Global */
 :root {
-  --theme-color: #f65446;
+  --theme-color: #fff;
   --play-color: #fff;
   --play-background-color: #000;
   --button-color: #1b1b1b;
@@ -272,7 +272,6 @@ input[type="number"] {
 .board-item-image > a > img {
   width: 200px;
   height: 300px;
-  filter: grayscale(1);
   transition: all 0.5s ease-in-out 0s;
 }
 
@@ -292,7 +291,7 @@ input[type="number"] {
   line-height: 30px;
   text-align: center;
   padding: 1px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(125, 125, 125, 0.25);
   backdrop-filter: blur(4px);
 }
 
