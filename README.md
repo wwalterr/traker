@@ -4,7 +4,7 @@ Track animes and shows premieres, seasons and episodes.
 
 ## About
 
-Track animes and shows premieres, seasons and episodes and integrate with Trakt.
+Track animes and shows premieres, seasons and episodes, integrates with Trakt.
 
 ## Built with
 
