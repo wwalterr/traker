@@ -47,4 +47,4 @@ Please, consider the following.
 
 ## License
 
-This project is not licensed under any license.
+[MIT](./LICENSE.md)
